@@ -7,7 +7,6 @@ A full-stack notes application built with React, Node.js, and Firebase.
 - User authentication with Firebase Auth
 - Create, read, update, and delete notes
 - Cloud storage with Firebase Firestore
-- Modern and responsive UI
 - REST API with Node.js and Express
 
 ## Project Structure
@@ -17,20 +16,14 @@ The project is divided into two main parts:
 - `client`: React frontend
 - `server`: Node.js + Express backend
 
-## Prerequisites
-
-- Node.js (v14 or newer)
-- npm or yarn
-- Firebase account
-
 ## Setup Instructions
 
 ### Firebase Setup
 
-1. Create a Firebase project in the [Firebase Console](https://console.firebase.google.com/)
+1. Create a Firebase project 
 2. Enable Email/Password authentication in the Authentication section
 3. Create a Firestore database
-4. Get your Firebase configuration for the web app (you'll need the config values for both client and server)
+4. Get your Firebase configuration for the web app 
 
 ### Frontend Setup
 
@@ -89,6 +82,3 @@ The project is divided into two main parts:
 2. Create, view, edit, and delete notes
 3. Log out when done
 
-## License
-
-MIT 

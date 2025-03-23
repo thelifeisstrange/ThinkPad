@@ -1,22 +1,12 @@
 # ThinkPad Notes - Client
 
-This is the frontend application for ThinkPad Notes, built with React, Vite, and Firebase.
-
 ## Features
 
-- Beautiful UI with animations and transitions
 - User authentication (login, register)
 - Create, read, update, and delete notes
 - Responsive design for all devices
-- Firebase integration
 
 ## Getting Started
-
-### Prerequisites
-
-- Node.js (v14+)
-- npm or yarn
-- Firebase project
 
 ### Installation
 
@@ -42,7 +32,7 @@ VITE_FIREBASE_MEASUREMENT_ID=your-measurement-id
 
 ### Development
 
-Start the development server:
+Start the development server: 
 
 ```bash
 npm run dev
@@ -77,14 +67,3 @@ client/
 ├── .env              # Environment variables (not in repo)
 └── index.html        # HTML entry point
 ```
-
-## Main Components
-
-- **Navbar**: Navigation and authentication status
-- **Toast**: Notification system
-- **Loading**: Loading indicators with multiple styles
-- **Pages**: Home, Login, Register, Notes, CreateNote, EditNote
-
-## Styling
-
-The application uses custom CSS with variables for theming. The Poppins font is used for a modern look and feel. Animations are added to enhance the user experience.
