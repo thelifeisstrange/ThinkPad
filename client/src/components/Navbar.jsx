@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -9,6 +10,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
+  const authContext = useAuth();
+  const currentUser = authContext?.currentUser;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +43,7 @@ const Navbar = () => {
     }
   };
   
-  const isLoggedIn = auth.currentUser !== null;
+  const isLoggedIn = currentUser !== null && currentUser !== undefined;
   
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>

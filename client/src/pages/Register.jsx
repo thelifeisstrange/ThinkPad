@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const navigate = useNavigate();
+  const { signup, loginWithGoogle } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!name || !email || !password || !confirmPassword) {
-      setError('All fields are required');
+    if (!email || !password || !confirmPassword) {
+      setError('Please fill in all fields');
       return;
     }
     
@@ -25,37 +25,51 @@ const Register = () => {
       return;
     }
     
-    if (password.length < 6) {
-      setError('Password should be at least 6 characters');
-      return;
-    }
-    
     try {
       setIsLoading(true);
       setError('');
       
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      
-      // Set the user's display name
-      await updateProfile(userCredential.user, {
-        displayName: name
-      });
-      
+      await signup(email, password);
       navigate('/notes');
     } catch (err) {
       console.error('Registration error:', err);
-      let errorMessage = 'Failed to create account';
+      let errorMessage = 'Failed to create an account';
       
       if (err.code === 'auth/email-already-in-use') {
         errorMessage = 'Email is already in use';
+      } else if (err.code === 'auth/weak-password') {
+        errorMessage = 'Password is too weak (minimum 6 characters)';
       } else if (err.code === 'auth/invalid-email') {
         errorMessage = 'Invalid email address';
-      } else if (err.code === 'auth/weak-password') {
-        errorMessage = 'Password is too weak';
       }
       
       setError(errorMessage);
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      setIsGoogleLoading(true);
+      setError('');
+      await loginWithGoogle();
+      navigate('/notes');
+    } catch (err) {
+      console.error('Google sign-in error:', err);
+      let errorMessage = 'Failed to sign in with Google. Please try again.';
+      
+      if (err.code === 'auth/popup-closed-by-user') {
+        errorMessage = 'Sign-in was cancelled. Please try again when ready.';
+      } else if (err.code === 'auth/popup-blocked') {
+        errorMessage = 'Pop-up was blocked by your browser. Please allow pop-ups for this site.';
+      } else if (err.code === 'auth/cancelled-popup-request') {
+        errorMessage = 'Another sign-in attempt is in progress. Please wait.';
+      } else if (err.code === 'auth/network-request-failed') {
+        errorMessage = 'Network error. Please check your internet connection.';
+      }
+      
+      setError(errorMessage);
+      setIsGoogleLoading(false);
     }
   };
 
@@ -67,7 +81,7 @@ const Register = () => {
       </div>
       
       <div className="card animate-form">
-        <h2>Create an Account</h2>
+        <h2>Create Your Account</h2>
         
         {error && (
           <div className="error-message">
@@ -77,19 +91,6 @@ const Register = () => {
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              className="form-control"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              disabled={isLoading}
-              placeholder="Your name"
-            />
-          </div>
-          
-          <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
               type="email"
@@ -97,7 +98,7 @@ const Register = () => {
               className="form-control"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              disabled={isLoading}
+              disabled={isLoading || isGoogleLoading}
               placeholder="your@email.com"
             />
           </div>
@@ -110,7 +111,7 @@ const Register = () => {
               className="form-control"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoading}
+              disabled={isLoading || isGoogleLoading}
               placeholder="••••••••"
             />
           </div>
@@ -123,7 +124,7 @@ const Register = () => {
               className="form-control"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              disabled={isLoading}
+              disabled={isLoading || isGoogleLoading}
               placeholder="••••••••"
             />
           </div>
@@ -133,12 +134,27 @@ const Register = () => {
               type="submit" 
               className="btn btn-primary" 
               style={{ width: '100%' }}
-              disabled={isLoading}
+              disabled={isLoading || isGoogleLoading}
             >
-              {isLoading ? 'Creating account...' : 'Register'}
+              {isLoading ? 'Creating Account...' : 'Register'}
             </button>
           </div>
         </form>
+        
+        <div className="form-divider">
+          <span>OR</span>
+        </div>
+        
+        <div className="form-group">
+          <button 
+            type="button" 
+            className="btn btn-google" 
+            onClick={handleGoogleSignIn}
+            disabled={isLoading || isGoogleLoading}
+          >
+            {isGoogleLoading ? 'Connecting...' : 'Sign up with Google'}
+          </button>
+        </div>
         
         <p className="auth-footer">
           Already have an account? <Link to="/login">Login here</Link>

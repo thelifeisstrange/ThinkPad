@@ -2,6 +2,8 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut, 
   onAuthStateChanged 
 } from 'firebase/auth';
@@ -38,6 +40,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const loginWithGoogle = async () => {
+    try {
+      setError('');
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID
+      });
+      await signInWithPopup(auth, provider);
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  };
+
   const logout = () => {
     return signOut(auth);
   };
@@ -55,6 +71,7 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     signup,
     login,
+    loginWithGoogle,
     logout,
     error
   };

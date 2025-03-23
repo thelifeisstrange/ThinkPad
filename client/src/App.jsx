@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase/config';
+import { AuthProvider } from './context/AuthContext';
 
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -38,32 +39,34 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
-      <div className="app">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/create" element={
-            <PrivateRoute>
-              <CreateNote />
-            </PrivateRoute>
-          } />
-          <Route path="/edit/:id" element={
-            <PrivateRoute>
-              <EditNote />
-            </PrivateRoute>
-          } />
-          <Route path="/notes" element={
-            <PrivateRoute>
-              <Notes />
-            </PrivateRoute>
-          } />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="app">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/create" element={
+              <PrivateRoute>
+                <CreateNote />
+              </PrivateRoute>
+            } />
+            <Route path="/edit/:id" element={
+              <PrivateRoute>
+                <EditNote />
+              </PrivateRoute>
+            } />
+            <Route path="/notes" element={
+              <PrivateRoute>
+                <Notes />
+              </PrivateRoute>
+            } />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

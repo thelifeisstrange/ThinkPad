@@ -7,7 +7,10 @@ const admin = require('firebase-admin');
 dotenv.config();
 
 // Check for required environment variables
-const requiredEnvVars = ['FIREBASE_PROJECT_ID', 'FIREBASE_STORAGE_BUCKET'];
+const requiredEnvVars = [
+  'FIREBASE_PROJECT_ID', 
+  'FIREBASE_STORAGE_BUCKET'
+];
 const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
 
 if (missingEnvVars.length > 0) {
