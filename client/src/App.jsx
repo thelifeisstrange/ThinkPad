@@ -10,7 +10,6 @@ import Register from './pages/Register';
 import Notes from './pages/Notes';
 import CreateNote from './pages/CreateNote';
 import EditNote from './pages/EditNote';
-import DiagnosticPage from './pages/DiagnosticPage';
 
 // Protected route component
 const PrivateRoute = ({ children }) => {
@@ -61,7 +60,6 @@ function App() {
               <Notes />
             </PrivateRoute>
           } />
-          <Route path="/diagnostics" element={<DiagnosticPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

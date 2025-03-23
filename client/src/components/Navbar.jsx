@@ -5,7 +5,6 @@ import { signOut } from 'firebase/auth';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [showDiagnostics, setShowDiagnostics] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,19 +19,10 @@ const Navbar = () => {
       }
     };
 
-    const handleKeyDown = (e) => {
-      // Show diagnostics when Shift+D is pressed
-      if (e.key === 'D' && e.shiftKey) {
-        setShowDiagnostics(true);
-      }
-    };
-
     window.addEventListener('scroll', handleScroll);
-    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
@@ -69,17 +59,11 @@ const Navbar = () => {
               <>
                 <Link to="/notes" className={`nav-link ${currentPath === '/notes' ? 'active' : ''}`}>Notes</Link>
                 <Link to="/create" className={`nav-link ${currentPath === '/create' ? 'active' : ''}`}>Create</Link>
-                {showDiagnostics && (
-                  <Link to="/diagnostics" className={`nav-link ${currentPath === '/diagnostics' ? 'active' : ''}`}>Diagnostics</Link>
-                )}
                 <Link to="#" onClick={handleLogout} className="nav-link">Logout</Link>
               </>
             ) : (
               <>
                 <Link to="/login" className={`nav-link ${currentPath === '/login' ? 'active' : ''}`}>Login</Link>
-                {showDiagnostics && (
-                  <Link to="/diagnostics" className={`nav-link ${currentPath === '/diagnostics' ? 'active' : ''}`}>Diagnostics</Link>
-                )}
               </>
             )}
           </div>

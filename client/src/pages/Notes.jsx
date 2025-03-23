@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs, deleteDoc, doc, orderBy } from 'firebase/firestore';
 import { db, auth } from '../firebase/config';
 import { formatDistanceToNow } from 'date-fns';
-import { logAuthState } from '../utils/firebaseRulesChecker';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -11,12 +10,6 @@ const Notes = () => {
   const [error, setError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
   const navigate = useNavigate();
-
-  // Debug auth state
-  useEffect(() => {
-    // Log auth state to console for debugging
-    logAuthState();
-  }, []);
 
   useEffect(() => {
     const fetchNotes = async () => {
