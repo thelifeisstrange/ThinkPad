@@ -21,7 +21,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://thinkpadnotesapp.web.app',
+  origin: ['https://thinkpadnotesapp.web.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
