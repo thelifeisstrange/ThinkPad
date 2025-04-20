@@ -13,10 +13,45 @@ A full-stack notes application built with React, Node.js, and Firebase.
 
 The project is divided into two main parts:
 
-- `client`: React frontend
-- `server`: Node.js + Express backend
+- `client`: React frontend (deployed on Firebase Hosting)
+- `server`: Node.js + Express backend (deployed on Render)
 
-## Setup Instructions
+## Deployment
+
+### Live Demo
+
+- Frontend: [https://thinkpadnotesapp.web.app](https://thinkpadnotesapp.web.app)
+- Backend API: [https://thinkpad-m40t.onrender.com](https://thinkpad-m40t.onrender.com)
+
+### Frontend Deployment (Firebase)
+
+The frontend is deployed on Firebase Hosting:
+
+1. Build the React app:
+   ```
+   cd client
+   npm run build
+   ```
+
+2. Deploy to Firebase:
+   ```
+   firebase deploy
+   ```
+
+### Backend Deployment (Render)
+
+The backend is deployed on Render:
+
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Configure the settings:
+   - **Root Directory**: server
+   - **Environment**: Node
+   - **Build Command**: npm install
+   - **Start Command**: npm start
+   - **Plan**: Free
+
+## Local Development Setup
 
 ### Firebase Setup
 
@@ -45,6 +80,7 @@ The project is divided into two main parts:
    VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
    VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
    VITE_FIREBASE_APP_ID=your-app-id
+   VITE_API_URL=http://localhost:3000
    ```
 
 4. Start the development server:
@@ -66,7 +102,7 @@ The project is divided into two main parts:
 
 3. Create a `.env` file with your Firebase configuration:
    ```
-   PORT=5000
+   PORT=3000
    FIREBASE_PROJECT_ID=your-project-id
    FIREBASE_STORAGE_BUCKET=your-storage-bucket
    ```
